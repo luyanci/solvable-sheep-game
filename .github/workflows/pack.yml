@@ -59,21 +59,26 @@ jobs:
             ${{ runner.OS }}-npm-cache
       - name: Install Dependencies
         run: npm install nativefier -g
-      - name: Build
+      - name: Build x86_64
         run:  |
           nativefier --name lilegeli --portable https://lilegeli.netlify.app
-      - name: Package Bundle
-        run: 7z a -tzip lilegeli-${{ runner.OS }}.zip ./lilegeli-win32-x64
-      - name: Upload Artifact
+      - name: Package Bundle uni
+        run: 7z a -tzip lilegeli-${{ runner.OS }}-${{ runner.arch }}.zip ./lilegeli-win32-x64
+      - name: Build x86
+        run:  |
+          nativefier --arch universal --name lilegeli --portable https://lilegeli.netlify.app
+      - name: Package Bundle uni
+        run: 7z a -tzip lilegeli-${{ runner.OS }}-x86.zip ./lilegeli-win32-universal
+      - name: Upload Artifact x86
         uses: actions/upload-artifact@v3
         with:
-          name: lilegeli-${{ runner.OS }}-${{ runner.arch }}
-          path: lilegeli-*.zip
+          name: lilegeli-${{ runner.OS }}-x86
+          path: lilegeli-${{ runner.OS }}*.zip
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
             tag_name: release
-            files: ./**/lilegeli-${{ runner.OS }}.zip
+            files: ./**/lilegeli-${{ runner.OS }}*.zip
   buildpackage-macos:
     runs-on: macos-latest
     permissions:
@@ -98,7 +103,7 @@ jobs:
           nativefier --name lilegeli --portable https://lilegeli.netlify.app
           ls
       - name: Package Bundle
-        run: 7z a -tzip lilegeli-${{ runner.OS }}.zip ./lilegeli-win32-x64
+        run: 7z a -tzip lilegeli-${{ runner.OS }}.zip ./lilegeli-darwin-x64
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
