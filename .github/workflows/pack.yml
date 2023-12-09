@@ -62,14 +62,9 @@ jobs:
       - name: Build x86_64
         run:  |
           nativefier --name lilegeli --portable https://lilegeli.netlify.app
-      - name: Package Bundle uni
+      - name: Package Bundle xo86_64
         run: 7z a -tzip lilegeli-${{ runner.OS }}-${{ runner.arch }}.zip ./lilegeli-win32-x64
-      - name: Build x86
-        run:  |
-          nativefier --arch universal --name lilegeli --portable https://lilegeli.netlify.app
-      - name: Package Bundle uni
-        run: 7z a -tzip lilegeli-${{ runner.OS }}-x86.zip ./lilegeli-win32-universal
-      - name: Upload Artifact x86
+      - name: Upload Artifact all
         uses: actions/upload-artifact@v3
         with:
           name: lilegeli-${{ runner.OS }}-x86
@@ -99,9 +94,7 @@ jobs:
       - name: Install Dependencies
         run: npm install nativefier -g
       - name: Build
-        run:  |
-          nativefier --name lilegeli --portable https://lilegeli.netlify.app
-          ls
+        run:  nativefier --name lilegeli --portable https://lilegeli.netlify.app
       - name: Package Bundle
         run: 7z a -tzip lilegeli-${{ runner.OS }}.zip ./lilegeli-darwin-x64
       - name: Upload Artifact
