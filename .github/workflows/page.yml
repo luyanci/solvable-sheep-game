@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs/.vitepress/dist
+          path: ./diy/diy-dist
   deploy:
     needs: pages
     permissions:
